@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import DetailsModal from "./modal";
 import { useDownloadExcel } from "react-export-table-to-excel";
-
+import moment from "moment";
 const Dashboard = ({ user, data }) => {
   const [activeDetails, setactiveDetails] = useState(false);
   const tableRef = useRef(null);
@@ -39,25 +39,33 @@ const Dashboard = ({ user, data }) => {
             <td className="font-bold text-lg text-gray-500 w-[200px] break-all">
               Token
             </td>
+            <td className="font-bold text-lg text-gray-500 w-[200px] break-all">
+              Date
+            </td>
           </tr>
         </thead>
         <tbody>
-          {data?.map(({ name, age, email, token, gender, phone }, index) => (
-            <tr
-              onClick={() =>
-                setactiveDetails({ name, age, email, token, gender, phone })
-              }
-              key={index}
-              className="border-[1px] border-black "
-            >
-              <td className="p-2">{name}</td>
-              <td className="p-2">{age}</td>
-              <td className="p-2">{email}</td>
-              <td className="p-2">{phone}</td>
-              <td className="p-2">{gender}</td>
-              <td className="p-2">{token}</td>
-            </tr>
-          ))}
+          {data
+            ?.sort((a, b) => Date.parse(b?.date) - Date.parse(a?.date))
+            ?.map(({ name, age, email, token, gender, phone, date }, index) => (
+              <tr
+                onClick={() =>
+                  setactiveDetails({ name, age, email, token, gender, phone })
+                }
+                key={index}
+                className="border-[1px] border-black "
+              >
+                <td className="p-2">{name}</td>
+                <td className="p-2">{age}</td>
+                <td className="p-2">{email}</td>
+                <td className="p-2">{phone}</td>
+                <td className="p-2">{gender}</td>
+                <td className="p-2">{token}</td>
+                <td className="p-2">
+                  {date && moment(date).format("DD/MM/YYYY hh:mm")}
+                </td>
+              </tr>
+            ))}
         </tbody>
       </table>
 

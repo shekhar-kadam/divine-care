@@ -18,8 +18,8 @@ const Index = () => {
   const { name, email, age, phone, token, gender } = inputFields;
   const [loading, setloading] = useState(false);
 
-  const inputClass = `w-full bg-white border-gray-300 mt-2 mb-3 border-[1px] outline-none text-gray-600 placeholder:text-gray-200 p-2 text-base"`;
-  const labelClass = `text-gray-600 text-base uppercase font-medium`;
+  const inputClass = `w-full bg-white border-gray-300 mt-1 mb-2 border-[1px] outline-none text-gray-600 placeholder:text-gray-200 p-1 text-base"`;
+  const labelClass = `text-gray-600 text-sm uppercase font-medium`;
 
   const handleChange = (e) => {
     setInputFields({ ...inputFields, [e.target.name]: e.target.value });
@@ -28,7 +28,10 @@ const Index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setloading(true);
-    const newEntry = await ref.add(inputFields);
+    const newEntry = await ref.add({
+      ...inputFields,
+      date: new Date().toISOString(),
+    });
     if (newEntry.id) {
       toast.success("Submission was successfull");
       setInputFields(initialData);
@@ -44,9 +47,9 @@ const Index = () => {
 
       <form
         onSubmit={handleSubmit}
-        className="pb-16 w-[500px] max-w-[93%]  mx-auto "
+        className="pb-2 w-[500px] max-w-[93%]  mx-auto "
       >
-        <div className="w-full bg-white shadow-sm border-gray-300 accent-gray-300 mt-20 mb-8 border-[1.3px] shadow-gray-100 px-4 pt-8 py-8 ">
+        <div className="w-full bg-white shadow-sm border-gray-300 accent-gray-300 mt-3 mb-4 border-[1.3px] shadow-gray-100 px-4 pt-4 py-4 ">
           <label className={labelClass}>Name*</label>
           <input
             className={inputClass}
